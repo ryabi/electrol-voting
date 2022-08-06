@@ -1,6 +1,5 @@
 #include "MainFrame.h"
-
-
+extern int flag;
 void FontChanger(wxStaticText* Name, int a) {
 	wxFont font = Name->GetFont();
 	font.SetPointSize(a);
@@ -41,6 +40,7 @@ MainFrame::MainFrame(const wxString& title,const wxPoint &pos,const wxSize &size
 	wxChoice* ProvinceList = new wxChoice(registerPanel, wxID_ANY,wxPoint(140,65),wxSize(200,-1));
 
 
+
 	wxStaticText* ctz = new wxStaticText(registerPanel, wxID_ANY, "Citizenship Number :", wxPoint(15, 110), wxSize(120, -1));
 	ctzctrl = new wxTextCtrl(registerPanel, wxID_ANY, "", wxPoint(140, 105), wxSize(200, -1));
 	wxStaticText* username = new wxStaticText(registerPanel, wxID_ANY, "UserName :", wxPoint(15, 140), wxSize(80, -1));
@@ -71,10 +71,40 @@ MainFrame::MainFrame(const wxString& title,const wxPoint &pos,const wxSize &size
 	this->SetSizerAndFit(sizer);
 
 }
-//Function from which program start(Similar to int main () in c++
-bool MyApp::OnInit() {
-    MainFrame* frame = new MainFrame("Electrol Voting System",wxDefaultPosition,wxSize(800,800));
-	frame->Show();
-	return true;
+//Function for event handling
 
+void MainFrame::OnSignUp(wxCommandEvent& evt) {
+	wxLogStatus("Sign Up Clicked");
+	string Buffer[5];
+	Buffer[0] = firstnamectrl->GetValue().ToStdString();
+	Buffer[1] = lastnamectrl->GetValue().ToStdString();
+	Buffer[2] = ctzctrl->GetValue().ToStdString();
+	Buffer[3] = usernamectrl->GetValue().ToStdString();
+	Buffer[4] = passwordctrl->GetValue().ToStdString();
+	VoterData voterID(Buffer);
+	wxMessageDialog* confirm = new wxMessageDialog(NULL, "Are you sure provided data are right ?", "Signing Up", wxYES_DEFAULT | wxYES_NO | wxICON_QUESTION);
+	confirm->ShowModal();
+	//Writing Data on File
+	voterID.write_data();
+}
+
+void MainFrame::OnLogIn(wxCommandEvent& e) {
+	string Buffer[4];
+	Buffer[0] = loginusername->GetValue().ToStdString();
+	Buffer[1] = loginpassword->GetValue().ToStdString();
+	/*VoterData voterID;
+	ifstream ReadingVoterData("Data.dat",ios::binary |ios::in);
+	if (!ReadingVoterData) {
+		cout << "File can't be opened" << endl;
+			return ;
+	}
+	ReadingVoterData.seekg(0, ios::beg);
+	ReadingVoterData.seekg(0, ios::end);
+	int counter = ReadingVoterData.tellg() / sizeof(*this);
+	do {
+		ReadingVoterData.read(reinterpret_cast<char*>(&voterID), sizeof(voterID));
+	ReadingVoterData.seekg(sizeof(voterID), ios::cur);
+	} while (!ReadingVoterData.eof());*/
+	flag++;
+	delete this;
 }
