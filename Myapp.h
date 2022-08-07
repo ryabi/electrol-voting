@@ -3,7 +3,7 @@
 
 class MyApp :public wxApp {
 public:
-	bool OnInit();
+	virtual bool OnInit();
 };
 
 

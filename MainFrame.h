@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-extern int flag;
+
 class MainFrame:public wxFrame{
 public:
 	MainFrame(const wxString& title, const wxPoint& pos, const wxSize& Size);
@@ -18,7 +18,7 @@ private:
 	wxTextCtrl* passwordctrl;
 	wxTextCtrl* loginusername;
 	wxTextCtrl* loginpassword;
-	
+	wxTextCtrl* confirmpasswordctrl;
 private:
 	//Event handler 
 	void OnLogIn(wxCommandEvent & );
